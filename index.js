@@ -88,4 +88,17 @@ Market cap: ${data.MKTCAP}
     }
 })
 
+bot.command('info', ctx => {
+    bot.telegram.sendMessage(ctx.chat.id, 'Bot info', {
+        reply_markup: {
+            keyboard: [[
+                {text: "Credits"},
+                {text: "API"},
+            ]],
+            resize_keyboard: true,
+            one_time_keyboard: true
+        }
+    })
+})
+
 bot.launch();
