@@ -1,8 +1,23 @@
 import { Telegraf } from "telegraf";
 import { config } from "dotenv";
+import express from "express";
 import axios from "axios";
 
+const app = express();
+app.use(express.json());
+
 config();
+
+app.get('/', (req,res) => {
+    res.status(200).json({
+        OK: true,
+        app: "crypto_bot",
+        repository: "git+https://github.com/LazizbekDev/crypto.git",
+        author: "Lazizbek Tojiboyev",
+        homepage: "https://github.com/LazizbekDev/crypto#readme",
+        license: "ISC"
+    })
+})
 
 const bot = new Telegraf(process.env.TOKEN);
 const API = process.env.API;
@@ -117,3 +132,11 @@ bot.hears("hide keyboard", (ctx) => {
 })
 
 bot.launch();
+
+setInterval(async () => {
+    const {data} = await axios.get(process.env.URL)
+    console.log(data)
+}, 1000 * 60)
+app.listen(process.env.PORT||5000, () => {
+    console.log('server on server')
+})
