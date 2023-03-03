@@ -14,9 +14,10 @@ function dry (ctx) {
             inline_keyboard: [
                 [
                     { text: "Crypto Prices", callback_data: "price"},
-                    { text: "CoinMarketCap", url: "https://www.cryptocompare.com"}
+                    { text: "Bot info", callback_data: "info"}
                 ],
                 [
+                    { text: "CoinMarketCap", url: "https://www.cryptocompare.com"},
                     { text: "About me", url: "https://www.lazizbe.uz"}
                 ]
             ]
@@ -88,15 +89,29 @@ Market cap: ${data.MKTCAP}
     }
 })
 
-bot.command('info', ctx => {
+bot.action('info', ctx => {
+    ctx.answerCbQuery('About this bot')
     bot.telegram.sendMessage(ctx.chat.id, 'Bot info', {
         reply_markup: {
             keyboard: [[
                 {text: "Credits"},
                 {text: "API"},
+            ], [
+                {text: "hide keyboard"}
             ]],
             resize_keyboard: true,
             one_time_keyboard: true
+        }
+    })
+})
+
+bot.hears('Credits', ctx => ctx.reply('This bot made by @mernme'))
+bot.hears('API', ctx => ctx.reply('This bot uses cryptocompare.com api'))
+
+bot.hears("hide keyboard", (ctx) => {
+    bot.telegram.sendMessage(ctx.chat.id, 'Keyboard hidden', {
+        reply_markup: {
+            remove_keyboard: true
         }
     })
 })
